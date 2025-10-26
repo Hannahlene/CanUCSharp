@@ -1,0 +1,54 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Doctor>
+@{
+    ViewData["Title"] = "Find a Doctor";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <select class="form-control" name="specialty">
+            <option value="">-- All Specialties --</option>
+            @foreach (var specialty in ViewBag.Specialties)
+            {
+                <option value="@specialty.Name">@specialty.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class="form-control" name="location" placeholder="Location" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+</form>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <p>No doctors found matching your criteria.</p>
+    }
+    else
+    {
+        @foreach (var doctor in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dr. @doctor.User?.FirstName @doctor.User?.LastName</h5>
+                        <p class="card-text">
+                            <strong>Specialty:</strong> @doctor.Specialty?.Name<br />
+                            <strong>Qualifications:</strong> @doctor.Qualifications<br />
+                            <strong>Location:</strong> @doctor.Location<br />
+                            <strong>Working Hours:</strong> @doctor.WorkingHours<br />
+                            <strong>Consultation Fee:</strong> $@doctor.ConsultationFee<br />
+                        </p>
+                        <p>@doctor.Bio</p>
+                        <a asp-action="BookAppointment" asp-route-doctorId="@doctor.Id" class="btn btn-success">Book Appointment</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

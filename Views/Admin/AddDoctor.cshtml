@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Add Doctor";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" required />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="specialtyId" class="form-label">Specialty</label>
+                <select class="form-control" id="specialtyId" name="specialtyId" required>
+                    <option value="">-- Select Specialty --</option>
+                    @foreach (var specialty in ViewBag.Specialties)
+                    {
+                        <option value="@specialty.Id">@specialty.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="qualifications" class="form-label">Qualifications</label>
+                <input type="text" class="form-control" id="qualifications" name="qualifications" />
+            </div>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" name="bio" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="consultationFee" class="form-label">Consultation Fee ($)</label>
+                    <input type="number" step="0.01" class="form-control" id="consultationFee" name="consultationFee" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="workingHours" class="form-label">Working Hours</label>
+                <input type="text" class="form-control" id="workingHours" name="workingHours" placeholder="e.g., Mon-Fri 9AM-5PM" />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Doctor</button>
+            <a asp-action="Doctors" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

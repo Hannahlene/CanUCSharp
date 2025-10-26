@@ -1,0 +1,28 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Patient>
+@{
+    ViewData["Title"] = "Manage Patients";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Registered</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model)
+        {
+            <tr>
+                <td>@patient.User?.FirstName @patient.User?.LastName</td>
+                <td>@patient.User?.Email</td>
+                <td>@patient.User?.Address</td>
+                <td>@patient.User?.DateRegistered.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

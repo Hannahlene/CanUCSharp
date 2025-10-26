@@ -1,0 +1,48 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Patient</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                <td>@appointment.TimeSlot</td>
+                <td>@appointment.Patient?.User?.FirstName @appointment.Patient?.User?.LastName</td>
+                <td>@appointment.Reason</td>
+                <td><span class="badge bg-info">@appointment.Status</span></td>
+                <td>
+                    @if (appointment.Status == HealthcareAppointmentSystem.Models.AppointmentStatus.Pending)
+                    {
+                        <form asp-action="UpdateAppointmentStatus" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@appointment.Id" />
+                            <input type="hidden" name="status" value="@((int)HealthcareAppointmentSystem.Models.AppointmentStatus.Confirmed)" />
+                            <button type="submit" class="btn btn-sm btn-success">Confirm</button>
+                        </form>
+                        <form asp-action="UpdateAppointmentStatus" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@appointment.Id" />
+                            <input type="hidden" name="status" value="@((int)HealthcareAppointmentSystem.Models.AppointmentStatus.Cancelled)" />
+                            <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                        </form>
+                    }
+                    <a asp-action="UpdateNotes" asp-route-id="@appointment.Id" class="btn btn-sm btn-primary">Add Notes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

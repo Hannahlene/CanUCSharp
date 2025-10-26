@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Doctor Information</h5>
+        <p><strong>Name:</strong> Dr. @ViewBag.Doctor.User?.FirstName @ViewBag.Doctor.User?.LastName</p>
+        <p><strong>Specialty:</strong> @ViewBag.Doctor.Specialty?.Name</p>
+        <p><strong>Consultation Fee:</strong> $@ViewBag.Doctor.ConsultationFee</p>
+        <p><strong>Location:</strong> @ViewBag.Doctor.Location</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <input type="hidden" name="doctorId" value="@ViewBag.Doctor.Id" />
+            <div class="mb-3">
+                <label for="appointmentDate" class="form-label">Appointment Date</label>
+                <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required />
+            </div>
+            <div class="mb-3">
+                <label for="timeSlot" class="form-label">Time Slot</label>
+                <select class="form-control" id="timeSlot" name="timeSlot" required>
+                    <option value="">-- Select Time --</option>
+                    <option value="9:00 AM">9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason for Visit</label>
+                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Book Appointment</button>
+            <a asp-action="SearchDoctors" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

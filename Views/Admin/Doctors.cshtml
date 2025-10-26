@@ -1,0 +1,40 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Doctor>
+@{
+    ViewData["Title"] = "Manage Doctors";
+}
+
+<h1>@ViewData["Title"]</h1>
+<a asp-action="AddDoctor" class="btn btn-primary mb-3">Add New Doctor</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Specialty</th>
+            <th>Fee</th>
+            <th>Location</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.User?.FirstName @doctor.User?.LastName</td>
+                <td>@doctor.User?.Email</td>
+                <td>@doctor.Specialty?.Name</td>
+                <td>$@doctor.ConsultationFee</td>
+                <td>@doctor.Location</td>
+                <td>@(doctor.IsAvailable ? "Yes" : "No")</td>
+                <td>
+                    <a asp-action="EditDoctor" asp-route-id="@doctor.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <form asp-action="DeleteDoctor" asp-route-id="@doctor.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

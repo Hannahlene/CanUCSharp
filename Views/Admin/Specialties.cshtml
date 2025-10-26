@@ -1,0 +1,47 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Specialty>
+@{
+    ViewData["Title"] = "Manage Specialties";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Add New Specialty</h5>
+        <form method="post" asp-action="AddSpecialty" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="name" placeholder="Specialty Name" required />
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="description" placeholder="Description" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var specialty in Model)
+        {
+            <tr>
+                <td>@specialty.Name</td>
+                <td>@specialty.Description</td>
+                <td>
+                    <form asp-action="DeleteSpecialty" asp-route-id="@specialty.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

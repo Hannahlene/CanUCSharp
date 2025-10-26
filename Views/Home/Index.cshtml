@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to MediCare Healthcare</h1>
+    <p class="lead">Your trusted partner in healthcare management</p>
+    <hr class="my-4">
+    <p>Book appointments with top doctors, manage your medical records, and access quality healthcare services.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">For Patients</h5>
+                <p class="card-text">Search for doctors, book appointments, and manage your healthcare needs.</p>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">Sign In</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">For Doctors</h5>
+                <p class="card-text">Manage your appointments, update patient records, and control your schedule.</p>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-success">Doctor Sign In</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">For Administrators</h5>
+                <p class="card-text">Manage doctors, patients, appointments, and system settings.</p>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-warning">Admin Sign In</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h3>Our Specialties</h3>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>General Medicine</h5>
+                        <p>Comprehensive primary care</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Cardiology</h5>
+                        <p>Heart health specialists</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Dermatology</h5>
+                        <p>Skin care experts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Pediatrics</h5>
+                        <p>Child healthcare</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12 text-center">
+        <h3>Test Accounts</h3>
+        <p class="text-muted">Use these credentials to test the system:</p>
+        <ul class="list-unstyled">
+            <li><strong>Admin:</strong> admin@healthcare.com / Admin123!</li>
+        </ul>
+    </div>
+</div>

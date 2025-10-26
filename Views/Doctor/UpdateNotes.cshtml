@@ -1,0 +1,30 @@
+@model HealthcareAppointmentSystem.Models.Appointment
+@{
+    ViewData["Title"] = "Update Consultation Notes";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Appointment Details</h5>
+        <p><strong>Patient:</strong> @Model.Patient?.User?.FirstName @Model.Patient?.User?.LastName</p>
+        <p><strong>Date:</strong> @Model.AppointmentDate.ToShortDateString() at @Model.TimeSlot</p>
+        <p><strong>Reason:</strong> @Model.Reason</p>
+    </div>
+</div>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="mb-3">
+        <label for="consultationNotes" class="form-label">Consultation Notes</label>
+        <textarea class="form-control" id="consultationNotes" name="consultationNotes" rows="5">@Model.ConsultationNotes</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="prescription" class="form-label">Prescription</label>
+        <textarea class="form-control" id="prescription" name="prescription" rows="5">@Model.Prescription</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Notes</button>
+    <a asp-action="Appointments" class="btn btn-secondary">Cancel</a>
+</form>

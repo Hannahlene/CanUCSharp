@@ -1,0 +1,73 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Doctor</th>
+            <th>Specialty</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                <td>@appointment.TimeSlot</td>
+                <td>Dr. @appointment.Doctor?.User?.FirstName @appointment.Doctor?.User?.LastName</td>
+                <td>@appointment.Doctor?.Specialty?.Name</td>
+                <td><span class="badge bg-info">@appointment.Status</span></td>
+                <td>
+                    @if (appointment.PaymentId == null)
+                    {
+                        <span class="badge bg-warning">Pending</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">$@appointment.Payment?.Amount Paid</span>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(appointment.ConsultationNotes))
+                    {
+                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#notesModal@appointment.Id">View Notes</button>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No notes yet</span>
+                    }
+                </td>
+            </tr>
+            @if (!string.IsNullOrEmpty(appointment.ConsultationNotes))
+            {
+                <div class="modal fade" id="notesModal@appointment.Id" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Consultation Notes</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Notes:</strong> @appointment.ConsultationNotes</p>
+                                @if (!string.IsNullOrEmpty(appointment.Prescription))
+                                {
+                                    <p><strong>Prescription:</strong> @appointment.Prescription</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<h1>Welcome to Your Dashboard</h1>
+<hr />
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a asp-action="SearchDoctors" class="btn btn-primary btn-lg">Find a Doctor</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Upcoming Appointments</h3>
+        @if (!Model.Any())
+        {
+            <p>No upcoming appointments. <a asp-action="SearchDoctors">Book an appointment</a></p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Specialty</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        <tr>
+                            <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                            <td>@appointment.TimeSlot</td>
+                            <td>Dr. @appointment.Doctor?.User?.FirstName @appointment.Doctor?.User?.LastName</td>
+                            <td>@appointment.Doctor?.Specialty?.Name</td>
+                            <td><span class="badge bg-info">@appointment.Status</span></td>
+                            <td>
+                                @if (appointment.PaymentId == null)
+                                {
+                                    <span class="badge bg-warning">Pending</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Paid</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

@@ -1,0 +1,44 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<h1>Welcome, Dr. @ViewBag.Doctor.User?.FirstName @ViewBag.Doctor.User?.LastName</h1>
+<p class="lead">@ViewBag.Doctor.Specialty?.Name</p>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Upcoming Appointments</h3>
+        @if (!Model.Any())
+        {
+            <p>No upcoming appointments.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Patient</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        <tr>
+                            <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                            <td>@appointment.TimeSlot</td>
+                            <td>@appointment.Patient?.User?.FirstName @appointment.Patient?.User?.LastName</td>
+                            <td>@appointment.Reason</td>
+                            <td><span class="badge bg-info">@appointment.Status</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
