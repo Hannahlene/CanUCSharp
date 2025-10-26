@@ -1,0 +1,144 @@
+@{
+    ViewData["Title"] = "System Reports";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">System Reports Dashboard</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Doctors</h5>
+                    <h2>@ViewBag.TotalDoctors</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Patients</h5>
+                    <h2>@ViewBag.TotalPatients</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Appointments</h5>
+                    <h2>@ViewBag.TotalAppointments</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Revenue</h5>
+                    <h2>LKR @ViewBag.TotalRevenue.ToString("N2")</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Appointment Status Breakdown</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <p class="mb-1"><strong>Pending</strong></p>
+                            <h3 class="text-warning">@ViewBag.PendingAppointments</h3>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="mb-1"><strong>Confirmed</strong></p>
+                            <h3 class="text-primary">@ViewBag.ConfirmedAppointments</h3>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="mb-1"><strong>Completed</strong></p>
+                            <h3 class="text-success">@ViewBag.CompletedAppointments</h3>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <p class="mb-1"><strong>Cancelled</strong></p>
+                            <h3 class="text-danger">@ViewBag.CancelledAppointments</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Appointments by Specialty</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Specialty</th>
+                                <th>Total Appointments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.AppointmentsBySpecialty)
+                            {
+                                <tr>
+                                    <td>@item.Specialty</td>
+                                    <td>@item.Count</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Revenue by Specialty</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Specialty</th>
+                                <th>Revenue (LKR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.RevenueBySpecialty)
+                            {
+                                <tr>
+                                    <td>@item.Specialty</td>
+                                    <td>@item.Revenue.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Detailed Reports</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="AppointmentReport" class="btn btn-primary">View Appointment Report</a>
+                        <a asp-action="PaymentReport" class="btn btn-success">View Payment Report</a>
+                        <a asp-action="PatientStatistics" class="btn btn-info">View Patient Statistics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

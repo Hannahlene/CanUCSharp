@@ -176,4 +176,99 @@ public class AdminController : Controller
         }
         return RedirectToAction(nameof(Specialties));
     }
+
+    public async Task<IActionResult> Reports()
+    {
+        var totalDoctors = await _context.Doctors.CountAsync();
+        var totalPatients = await _context.Patients.CountAsync();
+        var totalAppointments = await _context.Appointments.CountAsync();
+        var pendingAppointments = await _context.Appointments.CountAsync(a => a.Status == AppointmentStatus.Pending);
+        var confirmedAppointments = await _context.Appointments.CountAsync(a => a.Status == AppointmentStatus.Confirmed);
+        var completedAppointments = await _context.Appointments.CountAsync(a => a.Status == AppointmentStatus.Completed);
+        var cancelledAppointments = await _context.Appointments.CountAsync(a => a.Status == AppointmentStatus.Cancelled);
+        
+        var totalRevenue = await _context.Payments
+            .Where(p => p.Status == PaymentStatus.Completed)
+            .SumAsync(p => (decimal?)p.Amount) ?? 0;
+
+        var appointmentsBySpecialty = await _context.Appointments
+            .Include(a => a.Doctor)
+            .ThenInclude(d => d.Specialty)
+            .GroupBy(a => a.Doctor!.Specialty!.Name)
+            .Select(g => new { Specialty = g.Key, Count = g.Count() })
+            .ToListAsync();
+
+        var revenueBySpecialty = await _context.Payments
+            .Where(p => p.Status == PaymentStatus.Completed)
+            .Include(p => p.Appointment)
+            .ThenInclude(a => a!.Doctor)
+            .ThenInclude(d => d!.Specialty)
+            .GroupBy(p => p.Appointment!.Doctor!.Specialty!.Name)
+            .Select(g => new { Specialty = g.Key, Revenue = g.Sum(p => p.Amount) })
+            .ToListAsync();
+
+        ViewBag.TotalDoctors = totalDoctors;
+        ViewBag.TotalPatients = totalPatients;
+        ViewBag.TotalAppointments = totalAppointments;
+        ViewBag.PendingAppointments = pendingAppointments;
+        ViewBag.ConfirmedAppointments = confirmedAppointments;
+        ViewBag.CompletedAppointments = completedAppointments;
+        ViewBag.CancelledAppointments = cancelledAppointments;
+        ViewBag.TotalRevenue = totalRevenue;
+        ViewBag.AppointmentsBySpecialty = appointmentsBySpecialty;
+        ViewBag.RevenueBySpecialty = revenueBySpecialty;
+
+        return View();
+    }
+
+    public async Task<IActionResult> AppointmentReport()
+    {
+        var appointments = await _context.Appointments
+            .Include(a => a.Patient)
+            .ThenInclude(p => p!.User)
+            .Include(a => a.Doctor)
+            .ThenInclude(d => d!.User)
+            .Include(a => a.Doctor)
+            .ThenInclude(d => d!.Specialty)
+            .Include(a => a.Payment)
+            .OrderByDescending(a => a.AppointmentDate)
+            .ToListAsync();
+
+        return View(appointments);
+    }
+
+    public async Task<IActionResult> PaymentReport()
+    {
+        var payments = await _context.Payments
+            .Include(p => p.Appointment)
+            .ThenInclude(a => a!.Patient)
+            .ThenInclude(p => p!.User)
+            .Include(p => p.Appointment)
+            .ThenInclude(a => a!.Doctor)
+            .ThenInclude(d => d!.User)
+            .OrderByDescending(p => p.PaymentDate)
+            .ToListAsync();
+
+        return View(payments);
+    }
+
+    public async Task<IActionResult> PatientStatistics()
+    {
+        var patientStats = await _context.Patients
+            .Include(p => p.User)
+            .Select(p => new
+            {
+                Patient = p,
+                TotalAppointments = p.Appointments.Count,
+                CompletedAppointments = p.Appointments.Count(a => a.Status == AppointmentStatus.Completed),
+                CancelledAppointments = p.Appointments.Count(a => a.Status == AppointmentStatus.Cancelled),
+                TotalSpent = p.Appointments
+                    .Where(a => a.Payment != null && a.Payment.Status == PaymentStatus.Completed)
+                    .Sum(a => (decimal?)a.Payment!.Amount) ?? 0
+            })
+            .OrderByDescending(ps => ps.TotalAppointments)
+            .ToListAsync();
+
+        return View(patientStats);
+    }
 }

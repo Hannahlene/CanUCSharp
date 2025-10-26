@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Patient Statistics";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Patient Statistics</h2>
+        <a asp-action="Reports" class="btn btn-secondary">Back to Reports</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Email</th>
+                            <th>Total Appointments</th>
+                            <th>Completed</th>
+                            <th>Cancelled</th>
+                            <th>Total Spent (LKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var stat in ViewBag.patientStats as IEnumerable<dynamic>)
+                        {
+                            <tr>
+                                <td>@stat.Patient.User.FirstName @stat.Patient.User.LastName</td>
+                                <td>@stat.Patient.User.Email</td>
+                                <td>@stat.TotalAppointments</td>
+                                <td><span class="badge bg-success">@stat.CompletedAppointments</span></td>
+                                <td><span class="badge bg-danger">@stat.CancelledAppointments</span></td>
+                                <td>@stat.TotalSpent.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

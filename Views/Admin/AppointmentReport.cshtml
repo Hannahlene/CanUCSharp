@@ -1,0 +1,95 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Appointment>
+@{
+    ViewData["Title"] = "Appointment Report";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Appointment Report</h2>
+        <a asp-action="Reports" class="btn btn-secondary">Back to Reports</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model)
+                        {
+                            <tr>
+                                <td>@appointment.Id</td>
+                                <td>@appointment.Patient?.User?.FirstName @appointment.Patient?.User?.LastName</td>
+                                <td>Dr. @appointment.Doctor?.User?.FirstName @appointment.Doctor?.User?.LastName</td>
+                                <td>@appointment.Doctor?.Specialty?.Name</td>
+                                <td>@appointment.AppointmentDate.ToString("MMM dd, yyyy")</td>
+                                <td>@appointment.TimeSlot</td>
+                                <td>
+                                    @switch (appointment.Status)
+                                    {
+                                        case HealthcareAppointmentSystem.Models.AppointmentStatus.Pending:
+                                            <span class="badge bg-warning">Pending</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.AppointmentStatus.Confirmed:
+                                            <span class="badge bg-primary">Confirmed</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.AppointmentStatus.Completed:
+                                            <span class="badge bg-success">Completed</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.AppointmentStatus.Cancelled:
+                                            <span class="badge bg-danger">Cancelled</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.AppointmentStatus.Rescheduled:
+                                            <span class="badge bg-info">Rescheduled</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @if (appointment.Payment != null)
+                                    {
+                                        @switch (appointment.Payment.Status)
+                                        {
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Completed:
+                                                <span class="badge bg-success">Paid</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Pending:
+                                                <span class="badge bg-warning">Pending</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Failed:
+                                                <span class="badge bg-danger">Failed</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Refunded:
+                                                <span class="badge bg-info">Refunded</span>
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No Payment</span>
+                                    }
+                                </td>
+                                <td>@appointment.CreatedAt.ToString("MMM dd, yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (!Model.Any())
+            {
+                <p class="text-center text-muted mt-4">No appointments found.</p>
+            }
+        </div>
+    </div>
+</div>

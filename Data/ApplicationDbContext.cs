@@ -16,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Specialty> Specialties { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Payment> Payments { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,5 +51,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne(a => a.Payment)
             .HasForeignKey<Payment>(p => p.AppointmentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Feedback>()
+            .HasOne(f => f.Patient)
+            .WithMany()
+            .HasForeignKey(f => f.PatientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Feedback>()
+            .HasOne(f => f.Doctor)
+            .WithMany()
+            .HasForeignKey(f => f.DoctorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

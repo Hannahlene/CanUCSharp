@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Leave Feedback";
+    var appointment = ViewBag.Appointment as HealthcareAppointmentSystem.Models.Appointment;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Leave Feedback</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h5>Appointment Details</h5>
+                        <p><strong>Doctor:</strong> Dr. @appointment?.Doctor?.User?.FirstName @appointment?.Doctor?.User?.LastName</p>
+                        <p><strong>Specialty:</strong> @appointment?.Doctor?.Specialty?.Name</p>
+                        <p><strong>Date:</strong> @appointment?.AppointmentDate.ToString("MMMM dd, yyyy")</p>
+                    </div>
+
+                    <form asp-action="LeaveFeedback" method="post">
+                        <input type="hidden" name="appointmentId" value="@appointment?.Id" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Rating <span class="text-danger">*</span></label>
+                            <div class="rating-stars">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="star1" value="1" required>
+                                    <label class="form-check-label" for="star1">⭐ 1 Star</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="star2" value="2">
+                                    <label class="form-check-label" for="star2">⭐⭐ 2 Stars</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="star3" value="3">
+                                    <label class="form-check-label" for="star3">⭐⭐⭐ 3 Stars</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="star4" value="4">
+                                    <label class="form-check-label" for="star4">⭐⭐⭐⭐ 4 Stars</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="rating" id="star5" value="5">
+                                    <label class="form-check-label" for="star5">⭐⭐⭐⭐⭐ 5 Stars</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="comments" class="form-label">Comments (Optional)</label>
+                            <textarea class="form-control" id="comments" name="comments" rows="4" maxlength="1000" placeholder="Share your experience with the doctor..."></textarea>
+                            <small class="form-text text-muted">Maximum 1000 characters</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                            <a asp-action="Appointments" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

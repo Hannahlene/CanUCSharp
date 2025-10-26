@@ -1,0 +1,70 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Payment>
+@{
+    ViewData["Title"] = "Payment Report";
+    var totalRevenue = Model.Where(p => p.Status == HealthcareAppointmentSystem.Models.PaymentStatus.Completed).Sum(p => p.Amount);
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Payment Report</h2>
+        <a asp-action="Reports" class="btn btn-secondary">Back to Reports</a>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>Total Revenue:</strong> LKR @totalRevenue.ToString("N2")
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Amount (LKR)</th>
+                            <th>Status</th>
+                            <th>Payment Date</th>
+                            <th>Transaction Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var payment in Model)
+                        {
+                            <tr>
+                                <td>@payment.Id</td>
+                                <td>@payment.Appointment?.Patient?.User?.FirstName @payment.Appointment?.Patient?.User?.LastName</td>
+                                <td>Dr. @payment.Appointment?.Doctor?.User?.FirstName @payment.Appointment?.Doctor?.User?.LastName</td>
+                                <td>@payment.Amount.ToString("N2")</td>
+                                <td>
+                                    @switch (payment.Status)
+                                    {
+                                        case HealthcareAppointmentSystem.Models.PaymentStatus.Completed:
+                                            <span class="badge bg-success">Completed</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.PaymentStatus.Pending:
+                                            <span class="badge bg-warning">Pending</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.PaymentStatus.Failed:
+                                            <span class="badge bg-danger">Failed</span>
+                                            break;
+                                        case HealthcareAppointmentSystem.Models.PaymentStatus.Refunded:
+                                            <span class="badge bg-info">Refunded</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>@payment.PaymentDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td>@(payment.TransactionDetails ?? "N/A")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (!Model.Any())
+            {
+                <p class="text-center text-muted mt-4">No payment transactions found.</p>
+            }
+        </div>
+    </div>
+</div>
