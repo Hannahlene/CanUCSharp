@@ -519,8 +519,8 @@ The system has been populated with the following initial test data:
 6. **API Testing** - If REST APIs are implemented, comprehensive API testing needed
 
 ### Test Environment
-- **Operating System:** Linux (Replit Environment)
-- **Framework:** ASP.NET Core 8.0
+- **Operating System:** Linux 
+- **Framework:** ASP.NET Core 9.0
 - **Database:** SQLite
 - **Browser:** Chrome (latest version)
 - **Date of Testing:** October 26, 2025

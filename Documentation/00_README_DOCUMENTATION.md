@@ -168,13 +168,13 @@ All documentation is located in the `Documentation/` folder:
 ## How to Run the Application
 
 ### Prerequisites
-- .NET 8.0 SDK (already installed in Replit environment)
+- .NET 9.0 SDK 
 - Modern web browser
 
 ### Running the Application
 1. The application is currently running on port 5000
 2. Access the application at: `http://localhost:5000`
-3. Or click the "Open Website" button in Replit
+
 
 ### Building the Application
 ```bash
@@ -290,7 +290,7 @@ Patients can register themselves at:
 - **Validation:** jQuery Validation
 
 ### Development Environment
-- **Platform:** Replit Cloud IDE
+- **Platform:** Vs code IDE
 - **Version Control:** Git
 
 ---

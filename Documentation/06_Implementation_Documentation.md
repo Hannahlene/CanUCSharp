@@ -37,12 +37,6 @@ The Healthcare Appointment System is a complete web-based solution developed for
 - **Bootstrap 5:** Responsive CSS framework
 - **jQuery:** JavaScript library for DOM manipulation
 - **jQuery Validation:** Client-side form validation
-
-### Development Tools
-- **Replit:** Cloud-based development environment
-- **Git:** Version control system
-- **.NET CLI:** Command-line interface for .NET development
-
 ---
 
 ## 3. Implemented Features
