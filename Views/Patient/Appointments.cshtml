@@ -13,9 +13,10 @@
             <th>Time</th>
             <th>Doctor</th>
             <th>Specialty</th>
+            <th>Reason</th>
             <th>Status</th>
-            <th>Payment</th>
             <th>Notes</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -26,17 +27,8 @@
                 <td>@appointment.TimeSlot</td>
                 <td>Dr. @appointment.Doctor?.User?.FirstName @appointment.Doctor?.User?.LastName</td>
                 <td>@appointment.Doctor?.Specialty?.Name</td>
+                <td>@appointment.Reason</td>
                 <td><span class="badge bg-info">@appointment.Status</span></td>
-                <td>
-                    @if (appointment.PaymentId == null)
-                    {
-                        <span class="badge bg-warning">Pending</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-success">$@appointment.Payment?.Amount Paid</span>
-                    }
-                </td>
                 <td>
                     @if (!string.IsNullOrEmpty(appointment.ConsultationNotes))
                     {
@@ -45,6 +37,14 @@
                     else
                     {
                         <span class="text-muted">No notes yet</span>
+                    }
+                </td>
+                <td>
+                    @if (appointment.Status == HealthcareAppointmentSystem.Models.AppointmentStatus.Pending && appointment.AppointmentDate >= DateTime.Today)
+                    {
+                        <form asp-action="CancelAppointment" asp-route-id="@appointment.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this appointment?')">Cancel</button>
+                        </form>
                     }
                 </td>
             </tr>

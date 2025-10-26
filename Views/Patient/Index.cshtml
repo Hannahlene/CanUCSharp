@@ -29,7 +29,6 @@
                         <th>Doctor</th>
                         <th>Specialty</th>
                         <th>Status</th>
-                        <th>Payment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,16 +40,6 @@
                             <td>Dr. @appointment.Doctor?.User?.FirstName @appointment.Doctor?.User?.LastName</td>
                             <td>@appointment.Doctor?.Specialty?.Name</td>
                             <td><span class="badge bg-info">@appointment.Status</span></td>
-                            <td>
-                                @if (appointment.PaymentId == null)
-                                {
-                                    <span class="badge bg-warning">Pending</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-success">Paid</span>
-                                }
-                            </td>
                         </tr>
                     }
                 </tbody>
