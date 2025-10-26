@@ -208,7 +208,6 @@
 ### One-to-One Relationships
 1. AspNetUsers ↔ Doctors (via UserId)
 2. AspNetUsers ↔ Patients (via UserId)
-3. Appointments ↔ Payments (via AppointmentId)
 
 ### One-to-Many Relationships
 1. Specialties → Doctors (One specialty has many doctors)
@@ -232,10 +231,6 @@
 - Notes/Comments: 500-2000 characters
 - Descriptions: Variable length text
 
-### Numeric Constraints
-- ConsultationFee: 0 to 100,000
-- Payment Amount: 0 to 100,000
-- Rating: 1 to 5 stars
 
 ### Date Constraints
 - All timestamps use UTC
@@ -244,4 +239,3 @@
 
 ### Enum Constraints
 - AppointmentStatus: {Pending, Confirmed, Completed, Cancelled, Rescheduled}
-- PaymentStatus: {Pending, Completed, Failed, Refunded}

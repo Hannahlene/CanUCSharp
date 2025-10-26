@@ -20,7 +20,7 @@
 
 ## Project Overview
 
-This coursework submission contains a fully functional **Online Healthcare Appointment System** developed for MediCare Pvt Ltd. The system is a web-based database application built using ASP.NET Core 8.0 MVC with SQLite database, implementing role-based access control for three user types: Administrators, Doctors, and Patients.
+This coursework submission contains a fully functional **Online Healthcare Appointment System** developed for MediCare Pvt Ltd. The system is a web-based database application built using ASP.NET Core 9.0 MVC with SQLite database, implementing role-based access control for three user types: Administrators, Doctors, and Patients.
 
 The system allows:
 - **Administrators** to manage doctors, specialties, patients, and generate comprehensive reports

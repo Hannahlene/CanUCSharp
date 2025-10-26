@@ -45,7 +45,6 @@ The Healthcare Appointment System is a web-based platform designed to streamline
    - **Email Address** - Your valid email (will be your username)
    - **Password** - Must be at least 6 characters
    - **First Name** and **Last Name**
-   - **Phone Number** (optional)
    - **Address** (optional)
 3. Click **"Register"** to create your account
 4. You will be automatically logged in after successful registration
@@ -140,31 +139,6 @@ After signing in, you'll see the Admin Dashboard displaying:
    - Gender
    - Emergency contact
    - Medical history
-
-### 3.5 Generating Reports
-
-#### Accessing Reports
-1. Click **"Reports"** in the Admin menu
-2. The main reports page shows:
-   - Total system statistics
-   - Appointment distribution by specialty
-   - Revenue by specialty
-
-#### Appointment Report
-1. Click **"Appointment Report"**
-2. View detailed list of all appointments including:
-   - Patient and doctor names
-   - Appointment date and time
-   - Status (Pending, Confirmed, Completed, Cancelled)
-   - Payment status
-
-#### Payment Report
-1. Click **"Payment Report"**
-2. View all payment transactions with:
-   - Payment amounts
-   - Payment dates
-   - Transaction status
-   - Associated appointments
 
 #### Patient Statistics
 1. Click **"Patient Statistics"**
@@ -276,28 +250,6 @@ After signing in, you'll see:
 3. Confirm the cancellation
 4. **Note:** You can only cancel future appointments
 
-### 5.6 Leaving Feedback
-
-After a completed appointment, you can rate the doctor:
-
-1. In "My Appointments", find a completed appointment
-2. Click **"Leave Feedback"** button
-3. Provide:
-   - **Rating** - Select 1 to 5 stars
-   - **Comments** - Your experience and feedback (optional)
-4. Click **"Submit Feedback"**
-5. You can only leave one feedback per appointment
-
-### 5.7 Viewing Your Feedbacks
-
-1. Click **"My Feedbacks"** in the Patient menu
-2. View all feedbacks you've left, including:
-   - Doctor name
-   - Rating given
-   - Your comments
-   - Date submitted
-
----
 
 ## 6. Troubleshooting
 

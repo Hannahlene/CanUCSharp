@@ -15,7 +15,7 @@
 
 The Healthcare Appointment System is a complete web-based solution developed for MediCare Pvt Ltd to manage healthcare appointments across multiple clinics and medical centers in Sri Lanka. The system implements role-based access control with three distinct user types: Administrators, Doctors, and Patients.
 
-**Development Framework:** ASP.NET Core 8.0 MVC  
+**Development Framework:** ASP.NET Core 9.0 MVC  
 **Database:** SQLite with Entity Framework Core  
 **Authentication:** ASP.NET Core Identity  
 **UI Framework:** Bootstrap 5  
@@ -26,7 +26,7 @@ The Healthcare Appointment System is a complete web-based solution developed for
 ## 2. Technology Stack
 
 ### Backend Technologies
-- **ASP.NET Core 8.0:** Web application framework
+- **ASP.NET Core 9.0:** Web application framework
 - **Entity Framework Core:** Object-Relational Mapping (ORM)
 - **ASP.NET Core Identity:** User authentication and authorization
 - **C# 12:** Programming language

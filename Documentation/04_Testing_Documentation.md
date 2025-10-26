@@ -506,9 +506,8 @@ The system has been populated with the following initial test data:
 ## 4. Known Issues and Future Enhancements
 
 ### Issues
-1. **Payment Integration Incomplete** - Stripe payment gateway needs to be fully integrated
-2. **Email Notifications** - No email confirmations for appointments
-3. **SMS Alerts** - No SMS reminders for upcoming appointments
+1. **Email Notifications** - No email confirmations for appointments
+2. **SMS Alerts** - No SMS reminders for upcoming appointments
 
 ### Recommendations for Future Testing
 1. **Performance Testing** - Test system with 100+ concurrent users
