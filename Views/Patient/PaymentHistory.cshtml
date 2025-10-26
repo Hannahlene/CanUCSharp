@@ -1,0 +1,131 @@
+@model IEnumerable<HealthcareAppointmentSystem.Models.Payment>
+@{
+    ViewData["Title"] = "Payment History";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">My Payment History</h2>
+
+    <div class="alert alert-info mb-4">
+        <h5 class="mb-0">
+            <i class="bi bi-cash-stack"></i> Total Paid: <strong>LKR @ViewBag.TotalPaid.ToString("N2")</strong>
+        </h5>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Doctor</th>
+                                <th>Specialty</th>
+                                <th>Appointment Date</th>
+                                <th>Amount (LKR)</th>
+                                <th>Status</th>
+                                <th>Payment Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in Model)
+                            {
+                                <tr>
+                                    <td>#@payment.Id</td>
+                                    <td>Dr. @payment.Appointment?.Doctor?.User?.FirstName @payment.Appointment?.Doctor?.User?.LastName</td>
+                                    <td>@payment.Appointment?.Doctor?.Specialty?.Name</td>
+                                    <td>@payment.Appointment?.AppointmentDate.ToString("MMM dd, yyyy")</td>
+                                    <td><strong>@payment.Amount.ToString("N2")</strong></td>
+                                    <td>
+                                        @switch (payment.Status)
+                                        {
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Completed:
+                                                <span class="badge bg-success">Paid</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Pending:
+                                                <span class="badge bg-warning">Pending</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Failed:
+                                                <span class="badge bg-danger">Failed</span>
+                                                break;
+                                            case HealthcareAppointmentSystem.Models.PaymentStatus.Refunded:
+                                                <span class="badge bg-info">Refunded</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>@payment.PaymentDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(payment.TransactionDetails))
+                                        {
+                                            <small class="text-muted">@payment.TransactionDetails</small>
+                                        }
+                                        else
+                                        {
+                                            <small class="text-muted">-</small>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6>Total Transactions</h6>
+                            <h3>@Model.Count()</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h6>Successful Payments</h6>
+                            <h3>@Model.Count(p => p.Status == HealthcareAppointmentSystem.Models.PaymentStatus.Completed)</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h6>Pending Payments</h6>
+                            <h3>@Model.Count(p => p.Status == HealthcareAppointmentSystem.Models.PaymentStatus.Pending)</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <h5><i class="bi bi-info-circle"></i> No Payment History</h5>
+            <p class="mb-0">You haven't made any payments yet.</p>
+            <p class="mb-0">When you book appointments and make payments, they will appear here.</p>
+        </div>
+    }
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Back to Dashboard</a>
+        <a asp-action="Appointments" class="btn btn-primary">View Appointments</a>
+    </div>
+</div>
+
+<style>
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+    
+    .card {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+</style>

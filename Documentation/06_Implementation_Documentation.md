@@ -79,6 +79,8 @@ The Healthcare Appointment System is a complete web-based solution developed for
 ✓ Book appointments  
 ✓ View appointment history  
 ✓ Cancel appointments  
+✓ View payment history and transactions  
+✓ Track total amount spent  
 ✓ Leave feedback and ratings for doctors  
 ✓ View submitted feedbacks  
 
@@ -696,6 +698,68 @@ Patient's feedback history:
   - Star rating (displayed visually)
   - Comments
   - Submission date
+
+---
+
+### 4.24 Payment History (Patient)
+**File:** `Views/Patient/PaymentHistory.cshtml`  
+**Route:** `/Patient/PaymentHistory`
+
+**Screenshot Description:**
+Complete payment transaction history for the patient:
+- **Summary Card:**
+  - Total amount paid (all successful payments)
+- **Transactions Table:**
+  - Payment ID
+  - Doctor name and specialty
+  - Appointment date
+  - Amount in LKR
+  - Payment status (color-coded badges)
+  - Payment date and time
+  - Transaction details
+- **Statistics Cards:**
+  - Total transactions count
+  - Successful payments count (green)
+  - Pending payments count (yellow)
+
+**Features:**
+- All payment transactions listed in reverse chronological order
+- Color-coded status badges:
+  - Paid (Green)
+  - Pending (Yellow)
+  - Failed (Red)
+  - Refunded (Blue)
+- Quick navigation to Dashboard and Appointments
+
+**Implementation:**
+```csharp
+public async Task<IActionResult> PaymentHistory()
+{
+    var user = await _userManager.GetUserAsync(User);
+    var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == user!.Id);
+    
+    if (patient == null) return NotFound();
+    
+    var payments = await _context.Payments
+        .Include(p => p.Appointment)
+        .ThenInclude(a => a!.Doctor)
+        .ThenInclude(d => d!.User)
+        .Include(p => p.Appointment)
+        .ThenInclude(a => a!.Doctor)
+        .ThenInclude(d => d!.Specialty)
+        .Where(p => p.Appointment!.PatientId == patient.Id)
+        .OrderByDescending(p => p.PaymentDate)
+        .ToListAsync();
+    
+    var totalPaid = payments
+        .Where(p => p.Status == PaymentStatus.Completed)
+        .Sum(p => p.Amount);
+    
+    ViewBag.TotalPaid = totalPaid;
+    
+    return View(payments);
+}
+```
 
 ---
 

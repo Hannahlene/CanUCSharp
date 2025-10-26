@@ -237,4 +237,31 @@ public class PatientController : Controller
 
         return View(feedbacks);
     }
+
+    public async Task<IActionResult> PaymentHistory()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        var patient = await _context.Patients.FirstOrDefaultAsync(p => p.UserId == user!.Id);
+
+        if (patient == null) return NotFound();
+
+        var payments = await _context.Payments
+            .Include(p => p.Appointment)
+            .ThenInclude(a => a!.Doctor)
+            .ThenInclude(d => d!.User)
+            .Include(p => p.Appointment)
+            .ThenInclude(a => a!.Doctor)
+            .ThenInclude(d => d!.Specialty)
+            .Where(p => p.Appointment!.PatientId == patient.Id)
+            .OrderByDescending(p => p.PaymentDate)
+            .ToListAsync();
+
+        var totalPaid = payments
+            .Where(p => p.Status == PaymentStatus.Completed)
+            .Sum(p => p.Amount);
+
+        ViewBag.TotalPaid = totalPaid;
+
+        return View(payments);
+    }
 }
